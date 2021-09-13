@@ -7,4 +7,4 @@ FiveM in-game ads banner
 + Easy to use with other scripts by triggering events
 
 🎉 waiting for suggestions or contributions!
-> Download (here)[https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.0.0/cuchi_adBanner.zip]
+> Download [here](https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.0.0/cuchi_adBanner.zip)
