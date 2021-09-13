@@ -1,4 +1,4 @@
-local devMode = true
+local devMode = false
 local renderBanner = false
 
 if devMode then
