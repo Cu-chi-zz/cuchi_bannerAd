@@ -3,11 +3,11 @@ local renderBanner = false
 
 if devMode then
     RegisterCommand("cdisplay", function(s, a, r)
-        if a[1] == "true" then
-            TriggerServerEvent("cadBanner:callServer", true, {10, 10, 10, 255}, "TESTING AD BANNER :)", {255, 255, 255, 255}, 2)
-        else
-            TriggerServerEvent("cadBanner:callServer", false, {10, 10, 10, 255}, "TESTING AD BANNER :)", {255, 255, 255, 255}, 2)
-        end
+        TriggerServerEvent("cadBanner:callServer", true, {10, 10, 10, 255}, "TESTING BANNER", {255, 255, 255, 255}, 2)
+        TriggerServerEvent("cadBanner:callServer", false, {10, 10, 10, 255}, "TESTING BOTTOM BANNER", {255, 255, 255, 255}, 2)
+        TriggerServerEvent("cadBanner:callServer", true, {255, 10, 10, 255}, "TESTING RED BANNER", {255, 255, 255, 255}, 2)
+        TriggerServerEvent("cadBanner:callServer", true, {255, 255, 255, 255}, "TESTING AN OTHER BANNER", {10, 10, 10, 255}, 3)
+        TriggerServerEvent("cadBanner:callServer", true, {255, 255, 255, 255}, "AS YOU CAN SEE, THE WAITING QUEUE IS WORKING (this message will be display for 10s)", {10, 10, 10, 255}, 10)
     end, false)
 end
 
