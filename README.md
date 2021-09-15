@@ -19,4 +19,4 @@ FiveM in-game ads banner
 
 
 🎉 waiting for suggestions or contributions!
-> Download [here](https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.0.0/cuchi_adBanner.zip)
+> Download [here](https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.1.0/cuchi_adBanner.zip)
