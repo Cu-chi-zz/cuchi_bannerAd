@@ -7,14 +7,16 @@ if devMode then
         TriggerServerEvent("cadBanner:callServer", false, {10, 10, 10, 255}, "TESTING BOTTOM BANNER", {255, 255, 255, 255}, 2)
         TriggerServerEvent("cadBanner:callServer", true, {255, 10, 10, 255}, "TESTING RED BANNER", {255, 255, 255, 255}, 2)
         TriggerServerEvent("cadBanner:callServer", true, {255, 255, 255, 255}, "TESTING AN OTHER BANNER", {10, 10, 10, 255}, 3)
-        TriggerServerEvent("cadBanner:callServer", true, {255, 255, 255, 255}, "AS YOU CAN SEE, THE WAITING QUEUE IS WORKING (this message will be display for 10s)", {10, 10, 10, 255}, 10)
+        TriggerServerEvent("cadBanner:callServer", true, {33, 33, 57, 255}, "AS YOU CAN SEE, THE WAITING QUEUE IS WORKING (this message will be display for 10s)", {220, 220, 220, 255}, 10)
     end, false)
 end
 
 local currentScreenPosition = nil
 local position = { x = 0.0, y = 0.0 }
-function DrawBanner(topOfScreen, rgbaColor, text, textColor)
+local currentIndex = 0
+function DrawBanner(topOfScreen, rgbaColor, text, textColor, _currentIndex)
     CreateThread(function() 
+        local cIndex = _currentIndex
         while not NetworkIsSessionStarted() do Wait(100) end
         if topOfScreen then position = { x = 1.0, y = 0.0075 } else position = { x = 1.0, y = 0.960 } end
         while renderBanner do
@@ -29,6 +31,10 @@ function DrawBanner(topOfScreen, rgbaColor, text, textColor)
                 DrawRect(0.5, 1.0, 1.0, 0.1, rgbaColor[1], rgbaColor[2], rgbaColor[3], rgbaColor[4])
                 DrawTexts(position, text, textColor)
                 UpdatePosition()
+            end
+
+            if cIndex ~= currentIndex then
+                break
             end
         end
     end)
@@ -54,9 +60,10 @@ function DrawTexts(_position, text, color)
 end
 
 RegisterNetEvent("cadBanner:Draw")
-AddEventHandler("cadBanner:Draw", function(data)
+AddEventHandler("cadBanner:Draw", function(data, _currentIndex)
     renderBanner = true
-    DrawBanner(data.topOfScreen, data.bannerColor, data.text, data.textColor) 
+    currentIndex = _currentIndex
+    DrawBanner(data.topOfScreen, data.bannerColor, data.text, data.textColor, _currentIndex) 
 end)
 
 RegisterNetEvent("cadBanner:Destruct")

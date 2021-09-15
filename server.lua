@@ -1,11 +1,12 @@
 local bannerIsRendering = false
 local bannerData = {}
 local bannerQueue = {}
-local devMode = false
+local devMode = true
+local currentIndex = 0
 
 AddEventHandler("playerJoining", function() 
     if bannerIsRendering then
-        TriggerClientEvent("cadBanner:Draw", source, bannerData)
+        TriggerClientEvent("cadBanner:Draw", source, bannerData, currentIndex)
     end
 end)
 
@@ -23,7 +24,8 @@ AddEventHandler("cadBanner:callServer", function(topOfScreen, rgbaColor, text, t
     if not bannerIsRendering then
         bannerIsRendering = true
         bannerData = _bannerData
-        TriggerClientEvent("cadBanner:Draw", -1, bannerData)
+        currentIndex = -1
+        TriggerClientEvent("cadBanner:Draw", -1, bannerData, currentIndex)
 
         CreateThread(function() 
             while not (timeoutInSeconds <= 0) do
@@ -32,48 +34,54 @@ AddEventHandler("cadBanner:callServer", function(topOfScreen, rgbaColor, text, t
             end
             bannerIsRendering = false
             TriggerClientEvent("cadBanner:Destruct", -1)
+            CheckQueue()
         end)
     else
         for i = 1, #bannerQueue + 1, 1 do
             if bannerQueue[i] == nil then
-                if devMode then print("setted "..tostring(bannerQueue[i]).." to "..tostring(_bannerData)) end
+                if devMode then 
+                    print("setted "..tostring(bannerQueue[i]).." to "..tostring(_bannerData)) 
+                end
+
                 bannerQueue[i] = _bannerData
-                if devMode then print("now > "..tostring(bannerQueue[i])) end
+                
+                if devMode then 
+                    print("now > "..tostring(bannerQueue[i])) 
+                end
+                
                 break
             end
         end
     end
 end)
 
-CreateThread(function() 
-    while true do
-        Wait(1000)
+function CheckQueue()
+    for i = 1, #bannerQueue + 1, 1 do
+        if bannerQueue[i] ~= nil then
+            if bannerQueue[i].showed then goto next end
+            currentIndex = i
+            bannerIsRendering = true
+            TriggerClientEvent("cadBanner:Draw", -1, bannerQueue[i], currentIndex)
 
-        if not bannerIsRendering then
-            for i = 1, #bannerQueue + 1, 1 do
-                if bannerQueue[i] ~= nil then
-                    if bannerQueue[i].showed then goto next end
-                    bannerIsRendering = true
-                    TriggerClientEvent("cadBanner:Draw", -1, bannerQueue[i])
-
-                    CreateThread(function() 
-                        local timeoutInSeconds = bannerQueue[i].timeoutInSeconds
-                        while not (timeoutInSeconds <= 0) do
-                            Wait(1000)
-                            timeoutInSeconds = timeoutInSeconds - 1
-                        end
-                        bannerQueue[i].showed = true
-                        bannerIsRendering = false
-                        TriggerClientEvent("cadBanner:Destruct", -1)
-                    end)
-
-                    if devMode then print("diff nil > "..bannerQueue[i].text) end
-                    break
-                else
-                    break
+            CreateThread(function() 
+                local timeoutInSeconds = bannerQueue[i].timeoutInSeconds
+                while not (timeoutInSeconds <= 0) do
+                    Wait(1000)
+                    timeoutInSeconds = timeoutInSeconds - 1
                 end
-                ::next::
+                bannerQueue[i].showed = true
+                bannerIsRendering = false
+                TriggerClientEvent("cadBanner:Destruct", -1)
+                CheckQueue()
+            end)
+
+            if devMode then 
+                print("diff nil > "..bannerQueue[i].text) 
             end
+            break
+        else
+            break
         end
+        ::next::
     end
-end)
+end
