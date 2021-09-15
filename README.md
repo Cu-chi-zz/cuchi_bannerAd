@@ -1,5 +1,5 @@
-# cuchi_adBanner
-FiveM in-game ads banner
+# cuchi_bannerAd
+FiveM in-game advertising banner
 
 + Only with natives
 + Fully optimised (server-side: **0.01ms** / **0.02ms** *while working* | client-side: **0.00ms** / **0.01ms** *while working*)
@@ -19,4 +19,4 @@ FiveM in-game ads banner
 
 
 🎉 waiting for suggestions or contributions!
-> Download [here](https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.1.0/cuchi_adBanner.zip)
+> Download [here](https://github.com/Cu-chi/cuchi_adBanner/releases/download/1.1.0/cuchi_bannerAd.zip)
