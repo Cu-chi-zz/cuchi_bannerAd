@@ -1,7 +1,7 @@
 local bannerIsRendering = false
 local bannerData = {}
 local bannerQueue = {}
-local devMode = true
+local devMode = false
 local currentIndex = 0
 
 AddEventHandler("playerJoining", function() 
